@@ -1,0 +1,34 @@
+#+TITLE:  Teoría Estructura de datos
+#+AUTHOR: Wilson S. Tubín
+#+DESCRIPTION: Ejercicios de métodos numéricos
+#+LANGUAGE: es
+#+CREATOR: https://wilsoneliseo.wordpress.com/
+
+#+OPTIONS: html-link-use-abs-url:nil html-postamble:auto
+#+OPTIONS: html-preamble:t html-scripts:t html-style:t
+#+OPTIONS: html5-fancy:nil tex:t
+#+HTML_CONTAINER: div
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_LINK_HOME:https://wilsoneliseo.wordpress.com/2018/05/21/analisis-lexico-metodo-del-arbol-ejemplo/
+#+HTML_LINK_UP:https://wilsoneliseo.wordpress.com/2018/05/21/analisis-lexico-metodo-del-arbol-ejemplo/
+
+
+
+El [[https://github.com/wilsoneliseo/tedd/blob/master/tedd.pdf][documento]] contiene algo de algoritmia, arreglos, arboles, tablas de
+dispersión y textos. Todos temas vistos en el curso de estructuras de
+datos de la carrera de Ingeniería En Ciencias Y Sistemas de la
+Universidad De San Carlos De Guatemala.
+
+
+- Algoritmia :: Estudio de los algoritmos
+- Arreglos :: Estudio de representaciones y algoritmos de manejo de
+              arreglos
+- Árboles :: Conceptos generales y representaciones de árboles
+- Tablas de dispersión :: En esta unidad revisaremos otra estructura
+     para uso de contenedores, que busca obtener el rendimiento de los
+     arreglos lexicográficos y la flexibilidad en el uso de memoria de
+     los árboles.
+- Textos :: Estudio de las diferentes representaciones y aplicaciones
+            del manejo de textos o strings.
+- Ejercicios de examen :: ejercicios resueltos de exámen. Otros solo
+     se presentan, más carecen de solución.

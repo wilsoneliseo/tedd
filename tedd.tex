@@ -1,0 +1,206 @@
+\documentclass[10pt,letterpaper,]{book}
+
+\usepackage[activeacute, spanish]{babel}
+\spanishdecimal{.} % usar puntos en vez de comas en modo matematico
+\usepackage[utf8]{inputenc}
+\newtheorem{definicion}{{\b Definici\'on}}[section]
+
+% ------------------------- ini-imeta.tex -------------------------
+ \usepackage[colorlinks=true,urlcolor=blue]{hyperref} %requerido para \hypersetup
+\newcommand{\titulo}{Estructura de datos.}
+\newcommand{\autor}{Wilson S. Tub\'in}
+\newcommand{\tema}{EDD}
+\newcommand{\blog}{https://wilsoneliseo.wordpress.com/}
+\newcommand{\institucion}{Wilson Eliseo GT}
+\newcommand{\departamento}{Ingeniería}
+\newcommand{\firma}{WeGT}
+\newcommand{\correo}{wilsoneliseogt@gmail.com}
+
+\hypersetup{
+  pdftitle={\titulo},
+  pdfauthor={\autor},
+  pdfsubject={\tema},
+  pdfcreator={\blog},
+  pdfproducer={\institucion},
+  pdfkeywords={\firma}
+}
+% ------------------------- fin-imeta.tex -------------------------
+
+\usepackage{amsmath} % matematica
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%-------------------------------------------------------------------------------
+%	PERSONALIZACION ENCABEZADO Y PIE DE PAGINA
+%-------------------------------------------------------------------------------
+\usepackage{fancyhdr} % requerido para personalizar encabezado y pies de pagina
+\usepackage{lastpage} % requerido para personalizar pies de pagina
+\pagestyle{fancy} % todas las paginas tienen encabezados y pies
+\fancyhead{} % encabezado predeterminado en blanco
+\fancyfoot{} % pie de pagina predeterminado en blanco
+\fancyhead[C]{\titulo $\, \bullet$ \tema $\, \bullet$ \href{\blog}{\autor} } 
+\rfoot{P\'agina\ \thepage\ de\ \protect\pageref{LastPage}} % pie derecho
+
+
+%-------------------------ini-icodigo.tex-------------------------
+
+% PAQUETES REQUERIDOS----------------------------------------|
+\usepackage{listings} % requerido para insercion de codigo
+\usepackage{courier}
+\usepackage{color} % requerido para personalizacion de colores
+
+
+% CONFIGURACION DEL CODIGO DE INCLUSION----------------------|
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\definecolor{morado}{RGB}{116,6,164}
+
+\lstset
+{
+  frame=Ltb,                    % marco
+  framerule=0pt,                % borde del marco
+  aboveskip=0.5cm,
+  framextopmargin=3pt,
+  framexbottommargin=3pt,
+  framexleftmargin=0.4cm,
+  framesep=0pt,
+  rulesep=.4pt,
+  backgroundcolor=\color{gray97}, %fondo del frame
+  rulesepcolor=\color{black},
+  texcl=true,
+  %
+  stringstyle=\color{morado},   % cadenas de color purpura
+  showstringspaces=false,       % mostrar marca en los espacios
+  basicstyle=\small\ttfamily,   % estilo basico de caracteres
+  commentstyle=\usefont{T1}{pcr}{m}{sl}\color{gray45}\small, % comentarios small
+                                                     %dark green, fuente courier 
+  keywordstyle=[1]\color{blue}\bf, % funciones en negrita y azul
+  keywordstyle=[2]\color{purple},  % argumento de funciones en purpura
+  keywordstyle=[3]\color{blue}\underbar, % funciones subrayadas y azules
+  identifierstyle=,             % nada especial a identificadores
+  %
+  numbers=left,
+  numbersep=15pt,
+  numberstyle=\tiny\color{gray45}, %estilo de numeracion
+  numberfirstline = false,
+  breaklines=true,              % quebrar lineas largas
+  stepnumber=1,                 % numerar cada linea
+  tabsize=2,                    % dos espacios por cada tab
+}
+
+
+\lstdefinestyle{miEstilo}
+{
+  language=[ansi]c++, % sintaxis para c++
+  %language=[latex]tex, % sintaxis de latex
+}
+
+%-------------------------fin-icodigo.tex-------------------------
+
+
+\usepackage{graphicx} % Requerido para insertar imagenes
+\graphicspath{ {imgArreglos/}{imgArboles/}{imgTablasDeDispersion/}{imgTextos/}{imgExams/} }
+\usepackage{float}
+
+\usepackage{alltt}
+\usepackage{color}
+
+\usepackage[sc]{mathpazo} % Usar fuente Palatino
+\usepackage[T1]{fontenc} % Usar codigicacion 8-bit
+\linespread{1.05} % Espacio de linea - Palatino necesita mas espacio entre lineas
+\usepackage{microtype} % Ajustar ligeramente el espaciado de letra
+                       % para la estética
+
+\usepackage{makeidx}
+
+
+\author{\autor \\ \correo}
+\title{\titulo}
+\date{}
+
+
+\begin{document}
+
+
+\maketitle
+\thispagestyle{empty}
+
+\frontmatter
+\chapter{Introducción}
+El documento contiene algo de algoritmia, arreglos, arboles, tablas de
+dispersión y textos. Todos temas vistos en el curso de estructuras de
+datos de la carrera de Ingeniería En Ciencias Y Sistemas de la
+Universidad De San Carlos De Guatemala.
+
+\begin{description}
+\item[Algoritmia: ] Estudio de los algoritmos
+\item[Arreglos: ] Estudio de representaciones y algoritmos de manejo
+  de arreglos
+\item[Árboles: ] Conceptos generales y representaciones de árboles
+\item[Tablas de dispersión: ] En esta unidad revisaremos otra
+  estructura para uso de contenedores, que busca obtener el
+  rendimiento de los arreglos lexicográficos y la flexibilidad en el
+  uso de memoria de los árboles.
+\item[Textos: ] Estudio de las diferentes representaciones y
+  aplicaciones del manejo de textos o strings.
+\item[Ejercicios de examen: ] Alguno ejercicios resueltos de
+  exámen. Otros solo se presentan, más carecen de solución.
+\end{description}
+
+\let\cleardoublepage\clearpage
+
+\mainmatter
+\chapter{Algoritmia}
+\label{cha:algoritmia}
+Estudio de los algoritmos
+\include{algoritmia}
+
+
+\chapter{Arreglos}
+\label{cha:arreglos}
+Estudio de representaciones y algoritmos de manejo de arreglos
+\include{arreglos}
+
+
+\chapter{Árboles}
+\label{cha:arboles}
+Conceptos generales y representaciones de árboles
+\include{arboles}
+
+
+\chapter{Tablas de dispersión}
+
+En esta unidad revisaremos otra estructura para uso de contenedores,
+que busca obtener el rendimiento de los arreglos lexicográficos y
+la flexibilidad en el uso de memoria de los árboles. El contenido
+básico es:
+
+  \begin{itemize}
+  \item Componentes generales de una tabla de dispersión
+  \item Compresión
+  \item Funciones de dispersión
+  \item Resolución de colisiones
+  \end{itemize}
+
+\include{tablasDeDispersion}
+
+\chapter{Textos}
+\label{cha:textos}
+Estudio de las diferentes representaciones y aplicaciones del manejo
+de textos o strings.
+\include{textos}
+
+
+\chapter{Ejercicios de exámen}
+Alguno ejercicios resueltos de exámen. Otros solo se presentan, más
+carecen de solución.
+\include{exams}
+
+\end{document}
+
+%%% Local Variables:
+%%% TeX-master: t
+%%% compile-command: "make clean"
+%%% End:
+

@@ -1,0 +1,625 @@
+\section{Eficiencia de algoritmos}
+
+\subsection{Necesidad de la algoritmia}
+\label{sec:necesidad-de-la}
+
+Dado un problema cualquiera que se desee implementar, habran casi
+tantas soluciones efectivas, como programadores trabajen en ella.  Sin
+embargo sólo habrá una solución, que sea la más eficiente. Ésto se
+debe a que parte de la programación involucra arte y creatividad, y
+cada persona piensa de manera diferente.
+
+Dado que siempre estamos interesados en reutilizar lo existente, si
+buscamos una solución para un problema, seguramente encontraremos
+varias implementaciones, y deberemos elegir una de ellas como la más
+eficiente para utilizar.
+
+Para ésto, primero tenemos tener claro la diferencia entre efectivo y
+eficiente:
+
+\begin{description}
+\item[Efectividad: ] Capacidad de lograr el efecto que se desea o se
+  espera.
+\item[Eficiencia: ] Capacidad para lograr un fin, empleando los medios
+  más adecuados
+\end{description}
+
+Claro, definir <<los medios más adecuados>> depende de la solución y lo
+que se declare importante.  Por ejemplo: si se desea ir el país vecino
+¿cuál es el medio más adecuado para llegar? ¿por bus, por avión,
+caminando? Tomar la decisión del medio, dependerá de qué el lo
+importante que se desee lograr. Si tenemos tiempo y nos gusta
+disfrutar el paisaje, el mejor medio es el bus, si tenemos un negocio
+importante que nos perderíamos si no llegaramos a tiempo, el medio
+adecuado sería el avión.
+
+\subsection{Eficiencia de algoritmos}
+\label{sec:efic-de-algor}
+
+Para lograr comparar dos algoritmos tenemos dos opciones:
+\begin{description}
+\item[Método empírico (a posteriori): ] Consiste en realizar las dos
+  implementaciones y realizar ejecuciones similares, en la misma
+  máquina y con la misma cantidad de datos, y comparar los tiempos de
+  ejecución. Este método es la medida más exacta que se puede lograr,
+  pero tiene la desventaja es que no siempre hay tiempo para hacer
+  varias implementaciones o, si ya están hechas, hacer ambas
+  implementaciones puede ser compleja y no ser factible.
+\item[Método teórico (a priori): ] Consiste en realizar un análisis
+  matemático de los algoritmos y determinar una medida de la
+  eficiencia. Ésto tiene la ventaja que no necesita una implementación
+  real de los algoritmos, ya que basta con un esbozo de la
+  implementación para realizar el análisis.
+\end{description}
+
+En el caso de los algoritmos, los medios para lograr la eficiencia se
+refieren a la utilización de tiempo y memoria, los cuales se tienen
+que equilibrar, y nos referimos a ellos en el estudio de
+\textbf{complejidad espacial} (eficiencia en el uso de la memoria) y
+\textbf{complejidad temporal} (eficiencia en el tiempo de ejecución).
+
+La \textbf{complejidad espacial} se refiere a cuánta memoria necesita
+un algoritmo para ejecutarse completamente.  Aunque actualmente se
+tiene la impresión que no es tan determinante para la construcción de
+un algoritmo como solía ser, sigue siendo un factor a tomar en cuenta
+al momento de implementar una solución, principalmente en ambientes
+concurrentes, como soluciones web, o en ambientes más restringidos
+como las soluciones móviles.  En el ambiente web, un servicio
+relativamente simple, si tiene alta complejidad espacial (usa mucha
+memoria), al atender a miles de clientes, puede colapsar cualquier
+servidor.  En un ambiente móvil, la memoria es más limitada que en una
+PC o servidor, por lo que se debe tener presente la cantidad de
+memoria a utilizar.
+
+Anteriormente, era crítico el análisis de complejidad espacial, ya que
+si un programa no cabía en memoria (programa más datos) no era posible
+ejecutarlo.  Actualmente, ésto ya no es restricción debido al uso de
+la memoria virtual, pero ya que ésta involucra la utilización de disco
+duro, igualmente se debe vigilar el uso de la memoria para no degradar
+el rendimiento del sistema.  Simplificando a niveles prácticos el
+análisis de la complejidad espacial, básicamente podemos decir que se
+trata de determinar el tamaño del ejecutable, adicionado a cuánta
+memoria necesita cada elemento de una estructura, multiplicado por el
+máximo número de elementos, y ésto lo comparamos con la memoria
+disponible.
+
+\begin{quote}
+   \textbf{memoria libre <= tamaño\_ejecutable + tamaño\_elemento * máximo\_elementos}
+\end{quote}
+
+En cada estructura que estudiemos, haremos esta comparación, como un
+hábito que debe tener cada programador.
+
+En el caso de la \textbf{complejidad temporal}, sí se requiere un
+análisis más detenido para llegar a una conclusión ¿cómo podemos
+analizar teóricamente el tiempo de ejecución sin ejecutar el
+algoritmo? ¿en qué computadora se realizará? dado que diferentes
+computadoras utilizan diferentes velocidades de ejecución ¿qué unidad
+de tiempo utilizar?  ¿milisegundo o nanosegundos?
+
+Para realizar el análisis de un algoritmo, independientemente de la
+computadora a usar, vamos a utilizar el siguiente principio:
+
+\begin{description}
+\item[Principio de la invarianza: ] Si dos implementaciones tardan
+  respectivamente $T_1(n)$ y $T_2(n)$, entonces para resolver un problema
+  con datos de tamaño $n$, existirá siempre una constante positiva $c$ tal
+  que $T_1(n) \leq c * T_2(n)$ para un $n$ suficientemente grande
+\end{description}
+
+Ésto significa que $T_2(n)$ será $c$ veces más rápido que $T_1(n)$, sin
+importar la computadora.  Si en una máquina $T_1(n)= 5$ segundos y $T_2(n)=
+1$ segundo, en otra máquina más rápida $T_1(n)= 5 ms$ y $T_2(n)= 1 ms$.  En
+otras palabras $T_2(n)$ siempre más rápido que $T_1(n)$, en cualquier
+máquina.
+
+Por lo tanto no necesitamos una unidad de tiempo específica para
+comparación, ya que nuestro análisis es independiente de la máquina.
+Usaremos una unidad de tiempo adimensional que denominaremos
+\textbf{tiempo mínimo} denotado por \textbf{t} que es el tiempo en el
+que cualquier procesador ejecuta la instrucción más simple, como una
+asignación o expresión matemática.
+
+Adicionalmente, la unidad de tiempo es irrelevante ya que la medida de
+eficiencia no es un número, sino una función:
+
+\begin{definicion}
+  \textbf{Función de orden O(n)}.  Se dice que \textbf{f(n)} es de
+  orden \textbf{g(n)} si y sólo si
+  \[ f(n) \leq c * g(n)  \;\;\; para\; todo\; n \geq n_0 \]
+\end{definicion}
+
+donde $c$ y $n_0$ son constantes positivas independientes de $n$
+
+\begin{itemize}
+\item[Ejemplo 1. ]  sea $f(n) = 3n^3 + 2n^2 $.  ¿Podemos decir que
+  $O(f(n) ) = n^3$ ?  si tenemos $c = 5$ y $n_0 = 0$\\
+
+se cumple que
+\[f(n) \leq 5 * g(n) \;\;\;para\; todo\; n \geq 0\]
+\begin{eqnarray*}
+  3n^3 + 2n^2  & \leq & 5n^3\\
+ 3n^3 + 2n^2  & \leq & 3n^3 + 2n^3\\
+2n^2  & \leq & 2n^3\\
+n^2  & \leq & n^3
+\end{eqnarray*}
+para todo $n \geq 0$
+\item [Ejemplo 2. ]  sea $f(n) = 3n+ 1$.  ¿Podemos decir que $O(f(n) )
+  = g(n) = n$ ? si tenemos $c = 4$ y $n_0 = 1$ \\
+
+se cumple que
+\[f(n) \leq 4*g(n) \;\;\;para \; todo \;n\; \geq 1\]
+\begin{eqnarray*}
+  3n+ 1 & \leq & 4n \\
+  3n+ 1 & \leq & 3n + n \\
+  1 & \leq & n
+\end{eqnarray*}
+ para todo $n \geq 1$
+\end{itemize}
+
+En nuestros análisis no podremos hacer una hipótesis y comprobarla,
+como en los ejemplo anteriores, sino que dada la función f(n),
+deberemos deducir g(n).  Ésto podremos hacerlo usando las siguientes
+propiedades de la función O(n), cuya deducción está fuera del alcance
+del curso:
+
+\subsubsection{ Propiedades de O(n)}
+\label{sec:propiedades-de-on}
+
+\begin{itemize}
+\item las constantes no importan: O[ c * f(n) ] = c * O[ f(n) ] = O[
+  f(n) ]
+\item Regla de la suma:
+  \begin{itemize}
+  \item O[ f(n) + t(n) ] = max [ O( f(n) ), O( t(n) ) ]
+  \item O[f(n)] + O[t(n)] = O [f(n) + t(n)]
+  \end{itemize}
+\item regla de la multiplicación: O[f(n)] * O[t(n)] = O[f(n) * t(n)]
+\item anidación: O [ O(f(n)) ] = O [f(n)]
+\end{itemize}
+
+De los ejemplos anteriores podemos deducir O(n), aplicando estas
+propiedades así:
+
+\[
+\begin{array}{lll}
+  O(3n^3 + 2n^2 )&&\\
+  & Regla \;de\; la\; suma:& O(3n^3+2n^2)=max(O(3n^3),O(2n^2))=O(3n^3)\\
+  &  Regla \;de\; las\; constantes:&O(3n^3)=O(n^3)=n^3\\
+  O(3n+1)&&\\
+  &Regla\; de\; la\; suma:&O(3n+1)=max(O(3n),O(1))= O(3n)\\
+  &Regla\; de\; las\; constantes:&O(3n)=O(n)=n 
+\end{array}
+\]
+
+En general, lo resultados de O(n) se pueden clasificar en los
+siguiente órdenes (del mejor al peor):
+
+\begin{itemize}
+\item constante:   $O(f(n)) = c$, donde $c$ es una constante
+\item lineal:          $O(f(n)) = n$
+\item logarítmica: $O(f(n)) =  log_c(n)$
+\item progresiva, geométrica o polinomial: $O(f(n))=n^c$ , $c>=2$.
+  Incluye cuadrático ($n^2$) y cúbico ($n^3$)
+\item Exponencial:  $O(f(n)) = c^n$, para $c > 1$
+\end{itemize}
+
+Los dos últimos órdenes son especialmente deficientes, y en cualquier
+lado que los encontremos, debemos esforzarnos en mejorar el
+rendimiento.
+
+\section{Eficiencia de algoritmos no recursivos}
+\label{sec:efic-de-algor-1}
+Para determinar la eficiencia de un algoritmo debemos realizar los
+siguientes pasos:
+
+\begin{enumerate}
+\item Determinar una función del tiempo de ejecución del algoritmo
+  para \textbf{n} datos: T (algoritmo(n) ) = T(n)
+\item Aplicar las propiedades de O(n) para deducir O(T(n))
+\end{enumerate}
+
+Dado el software es matemática, tal como demostró Allan Turing,
+entonces todo algoritmo tiene una expresión matemática y viceversa, es
+posible hacer una expresión matemática, T(n), de cualquier algoritmo .
+
+Para ésto utilizaremos los principios del teorema de la programación
+estructurada, la cual establece que todo algoritmo puede ser realizado
+utilizando sólo las siguientes instrucciones básicas:
+
+\begin{itemize}
+\item Asignaciones y expresiones simples
+\item Secuencia
+\item Condición
+\item Ciclos
+\end{itemize}
+
+Si podemos establer una función de tiempo para cada una de estas
+sentencias, entonces podremos deducir dicha función para el algoritmo
+completo.
+
+Recordar que usamos medidas de tiempo teóricas (adimensionales) =
+\textbf{t} = tiempo de la instrucción más simple o rápida de ejecutar
+en el procesador
+
+\subsection{ Asignaciones y expresiones simples}
+\label{sec:asign-y-expr}
+
+\begin{eqnarray*}
+T(asignacion) &=& T(expresion \; simple) = {\bf t}\\
+\mapsto O(asignacion) &=& 1 \;\;  ( orden \;constante )
+\end{eqnarray*}
+
+Ésto incluye sentencias como
+\begin{eqnarray*}
+  \label{eq:1}
+  x& =& y ;\\
+  y &=& 5 + y * z ;
+\end{eqnarray*}
+
+\subsection{Secuencia de instrucciones}
+\label{sec:secu-de-instr}
+
+\begin{eqnarray*}
+  T(secuencia) &=& T (sentencia1) + T (sentencia2) + \ldots +T(sentencia \;n)\\
+  \\
+  \mapsto O(secuencia) &=& O[T (sentencia1) + T (sentencia2) +\ldots+ T(sentencia \;n) ]\\
+  &=& Max\Bigl[\;O\bigl(T (sentencia1)\bigr),\, O\bigl(T (sentencia2)\bigr) +\ldots+ O\bigl(T(sentencia\; n)\bigr) \;\Bigr]
+\end{eqnarray*}
+
+
+\subsection{Instrucciones condicionales}
+\label{sec:instr-cond}
+
+\begin{verbatim}
+if ( condicion ) {
+    sentenciaThen
+}else{
+    sentenciaElse
+}
+\end{verbatim} 
+
+
+\begin{eqnarray*}
+  T(if) &=& T ( condicion ) + max \bigl[ \;T ( sentenciaThen ), \;\;T (sentenciaElse) \;\bigr]\\
+  \\
+  \mapsto O(if) &=& O[\; T ( condicion ) + max ( T ( sentenciaThen ), \;\;T (sentenciaElse) )\;]\\
+  &=& max \Bigl[\; O\bigl(\,T ( condicion )\,\bigr), \;O\bigl(\, T ( sentenciaThen )\,\bigr), \;O\bigl(\,T (sentenciaElse)\,\bigr) \;\Bigr]
+\end{eqnarray*}
+
+\subsection{Instrucciones de iteración (for - while) }
+\label{sec:instr-de-iter}
+
+
+\begin{alltt}
+{\bf for}
+\end{alltt}
+
+\begin{verbatim}
+for (asignacionInicial ;  condicion ; asignacionFinal)
+    sentenciaCiclo
+}
+\end{verbatim}
+
+\begin{eqnarray*}
+T( for ) &=& T (  asignacionInicial ) +   \bigl[\; T ( condicion ) + T ( sentenciaCiclo ) + T ( asignacionFinal ) \;\bigr] {\bf * v}
+\end{eqnarray*}
+donde \textbf{v}  es el número máximo de veces que se repite el ciclo
+
+\begin{alltt}
+{\bf while}
+\end{alltt}
+
+\begin{verbatim}
+i = 0 ; //  asignacion inicial
+while ( condicion ) {
+    sentenciaCiclo
+}
+\end{verbatim}
+
+\begin{eqnarray*}
+  T( while ) &=& T ( asignacionInicial ) +   \bigl[ \;T ( condicion ) + T ( sentenciaCiclo ) \; \bigr] {\bf * v}
+\end{eqnarray*}
+donde \textbf{v} es el número máximo de veces que se repite el ciclo
+en el peor de los casos
+
+
+\begin{eqnarray*}
+  \mapsto O(ciclo) &=& O \Bigl[\; T (  asignacionInicial ) +   [ \;T ( condicion ) + T ( sentenciaCiclo ) \;] {\bf * v} \;\Bigr]\\
+  &=& max \Bigl[ \;O [ T (asignacionInicial )] +  O [\; \bigl( \; T ( condicion ) + T ( sentenciaCiclo ) \;\bigr) {\bf * v} \;]\;\Bigr]
+\end{eqnarray*}
+En estos casos, lo complicado suele ser determinar \textbf{v} en
+términos de \textbf{n} ( v = f(n) )
+
+\subsection{Llamadas a procedimientos}
+\label{sec:llam-proc}
+
+La llamada en sí misma es de tiempo constante, pero toma como tiempo
+de la llamada, el tiempo de la ejecución completa
+
+Está determinado por el cuerpo del procedimiento, dado que el paso de
+parámetros es constante (igual que una asignación)
+
+\subsection{Ejemplos}
+\label{sec:ejemplos}
+
+\begin{enumerate}
+\item \verb|x = x + 1 ;|
+  \begin{eqnarray*}
+    T(n)  &=& t\\
+    \mapsto O(asignacion) &=& O [ T(n) ] = O(1) = 1\;\;   (constante)
+  \end{eqnarray*}
+\item
+\begin{verbatim}
+for (i = 1; i <= n; i++ )
+        x = x + 1 ;
+\end{verbatim}
+  $$T(for) =  T(asignacionInicial) + v * \bigl[ T(condicion) + T (cuerpoDelFor) + T (asignacionFinal) \bigr] $$
+  En este caso
+  $$ T (for) = t + n ( t + t + t) =  t + 3nt = t(3n+1)$$
+  \begin{eqnarray*}
+    \mapsto O \bigl[ T(for) \bigr] &=& O[\,t(3n+1)\,] \\
+    &=& O(t)*O(3n+1) \\
+    &=& O(1)*max\bigl[O(3n),\;O(1)\bigr] \\
+    &=& O(3n) \\
+    &=& O(n) = n\;\; (lineal)
+  \end{eqnarray*}
+\item
+\begin{verbatim}
+int A (int n) {
+    x=1 ;
+    while (x<n)
+           x= 2 * x ;
+    return x ;
+}
+\end{verbatim}
+  \begin{eqnarray*}
+  T(A) &=& T(asignacion) + T(while) + T(asignacion)\\
+  T(A) &=& t +  \bigl[\, T(condicion) + T(cuerpoDelWhile) \,\bigr] * v + t
+\end{eqnarray*}
+$v$=número de veces que se ejecuta el cuerpo y condición del while.
+
+¿cuánto es $v$ en términos de $n$\footnote{$n$ representa el numero de datos que recibe el argoritmo}?
+
+Podemos hacer un algoritmo equivalente
+\begin{verbatim}
+int A1(int n) {
+    x=1 ;
+    v=0 ;
+    while (x < n) {
+        x = 2 * x ;
+        v = v + 1 ;
+    }
+    cout << "v=" << v ;
+    return x;
+}
+\end{verbatim}
+Valores de $v$ y $x$ respecto a $n$
+
+\begin{tabular}{c|c|c}
+n & v & x \\ \hline
+1 & 0 & x=1/v=0 \\
+2 & 1 & x=2/v=1 \\
+3 & 2 & x=4/v=2 \\
+4 & 2 &  \\
+5 & 3 & x=8/v=3 \\
+6 & 3 &  \\
+7 & 3 &  \\
+8 & 3 &  \\ 
+9 & 4 & x=16/v=4 \\
+10 & 4 &  \\
+. & . &  \\
+16 & 4 &  \\
+17 & 5 & x=32/v=5 \\ 
+.. & .. &  \\
+32 & 5 &  \\ 
+33 & 6 & x=64/v=6 \\
+.. & .. &  \\ 
+64 & 6 &   \\ 
+\end{tabular}
+\\[.5cm]
+Podemos deducir que existe una relación entre $v$ y $n$ así:
+$$2^v \geq  n$$
+
+por tanto
+\begin{eqnarray*}
+  \log_2(2^v) &\geq&\log_2(n)\\
+  v&\geq&\log_2(n)
+\end{eqnarray*}
+
+la funcion del tiempo sería
+\begin{eqnarray*}
+  T[\,A(n)\,] &=& T(asignacion) + T(while)\\
+  &=& t +  \bigl[\, T(condicion) + T(cuerpoDelWhile) \, \bigr] * \log_2(n)\\
+  &=& t + \log_2(n)*(t + t )\\
+  &=& t + 2t*\log_2(n)
+\end{eqnarray*}
+
+la función O(n) sería
+\begin{eqnarray*}
+  \mapsto O[\,A1(n)\,] &=& O[1 + 2*\log_2(n) ]\\
+  &=& \log_2(n) \;\;\;    (logaritmico)
+\end{eqnarray*}
+
+\end{enumerate}
+
+\section{ Eficiencia de algoritmos recursivos }
+\label{sec:efic-de-algor-2}
+
+Para calcular el tiempo de un algoritmo recursivo, básicamente es el
+mismo procedimiento, pero tenemos que tener en cuenta los siguientes
+cambios:
+
+\begin{itemize}
+\item Dado que es un algoritmo recursivo, la función de tiempo también
+  será recursiva
+\item Identificar la condición de salida del algoritmo, para que la
+  función recursiva de tiempo, sea dual, con una parte no recursiva,
+  definida por la condición de salida
+\item Una vez definida la parte recursiva, se deberá expander a modo
+  de resolver sin recursión, por medio de expansiones sucesivas.
+\end{itemize}
+
+\subsection{Ejemplo 1}
+\label{sec:ejemplo-1}
+
+\begin{verbatim}
+int factorial (int n) {
+    if ( n <= 0 )
+        return 1 ;
+    else
+       return n * factorial (n-1) ;
+}
+\end{verbatim}
+
+La condición de salida es $n \leq 0$, por lo tanto nuestra función de tiempo
+será dual y recursiva así:
+$$T[\,factorial(n)\,]=T(n)$$
+\begin{equation*}
+  \label{eq:definicion por partes}
+  T(n) = \left\{
+    \begin{array}{ll}
+      \mathrm{si\ } n \le 0 \; :    &  T(condicion)+T(asignacion)=2t \;\; \text{ (codición de salida)}\\
+      \mathrm{si\ } n > 0 \; : &  T(return)+T(llamadaRecursiva)=t+T(n-1) \;\; \text{ (parte recursiva)}
+    \end{array}
+  \right.
+\end{equation*}
+
+
+Resolviendo la parte recursiva:
+\begin{eqnarray*}
+  T(n) &=& t + T(n-1)\\
+       &=& t + [\, t + T(n-2)\, ] = 2t + T (n-2)\\
+       &=& 2t + [\, t + T(n-3) \,] = 3t + T (n-3)\\
+       &=& \ldots
+\end{eqnarray*}
+hasta la k-ésima expansión tenemos que
+$$ T(n) = kt + T (n-k)$$
+entonces, usando la condición de salida, llegamos hasta que $n-k=0$
+
+\begin{eqnarray*}
+  k &=& n  \\
+  \mapsto T(n) &=& nt + T(0)\\
+  &=& nt + 2t\\
+  &=& (n+2)t
+\end{eqnarray*}
+
+$$\mapsto O[\, factorial (n) \,] = O[\, T(N)\, ] = O(n+2) = n \rightarrow lineal$$    
+
+\subsubsection{Otra forma de lograr el mismo resultado}
+\label{sec:otra-forma-de}
+
+\begin{verbatim}
+int factorial (int n) {
+   int fact = 1 ;
+   for (int i=1; i<=n;i++)
+      fact=fact*i ;
+   return fact ;
+}
+\end{verbatim}
+
+También es de orden lineal $O(n) = n$
+
+\subsection{Ejemplo 2}
+\label{sec:ejemplo-2}
+
+\begin{verbatim}
+int recursiva2 (int n) {
+    if ( n <= 1)
+        return 5 ;
+    else
+        return recursiva2 (n-1) + recursiva2 (n-1) ;
+}
+\end{verbatim}
+
+$$T [\, recursiva2 (n) \,] = T (n)$$
+
+\begin{equation*}
+  T(n) = \left\{
+    \begin{array}{ll}
+      \mathrm{si\ } n \le 1 \; :    &  T(condicion)+T(asignacion)=2t\\
+      \\
+      \mathrm{si\ } n > 1 \; : &  T(return)+T(llamadaRecursiva1)+T(llamadaRecursiva2)\\
+      & t+T(n-1)+T(n-1)\\
+      & t+2T(n-1)
+    \end{array}
+  \right.
+\end{equation*}
+
+Expandiendo la parte recursiva
+\begin{eqnarray*}
+  T(n) &=& t + 2 T(n-1)\\
+    &=& t + 2 [\, t + 2 T(n-2) \,] = 3t + 4 T (n-2)\\
+    &=& 3t + 4 [\, t + 2T(n-3) \,] =  7t + 8 T (n-3)\\
+     &=& \ldots
+\end{eqnarray*}
+hasta la k-ésima expansión
+  $$T(n) = (2^k -1)t + ( 2^k ) T (n-k)$$
+  según la condición de salida, llegamos hasta que $n-k=1$ $\rightarrow$ $k = n -1$
+
+  \begin{eqnarray*}
+    \mapsto T(n) &=& (2^{n-1}-1)t + 2^{n-1} T(1)\\
+    &=& (2^{n-1}-1)t + 2^{n-1}t\\
+    &=& (2^{n-1})t-t+(2^{n-1})t\\
+    &=& 2(2^{n-1})t-t\\
+    &=& 2^n t-t\\
+    &=&(2^n - 1)t
+  \end{eqnarray*}
+
+  Encontrando la funcion O(n)
+
+  \begin{eqnarray*}
+    \mapsto O[\, recursiva2(n) \,] &=& O \bigl[\,( 2^n - 1 )t \, \bigr]\\
+    &=& O(2^n-1)*O(t) \\ 
+    &=& max \bigl[\, O(2^n),\; O(-1) \,\bigr]*1\\
+    &=& 2^n*1\\
+    &=& 2^n  \rightarrow exponencial
+  \end{eqnarray*}
+
+  \subsection{Ejemplo 3}
+  \label{sec:ejemplo-3}
+
+  Un algoritmo que multiplica el O(for) por el O(f(n))
+
+\begin{alltt}
+    {\bf
+    for (i=1; i <= f(n) ; i ++ ){
+     ...
+    }
+  }
+\end{alltt}
+equivalente más eficiente
+\begin{alltt}
+  {\bf
+    x = f(n) ;
+    for (i=1; i <= x ; i ++ ){..}
+  }
+\end{alltt}
+
+En general
+
+\begin{verbatim}
+if (x < f(n) ) {
+   ...
+   y = f(n) * z ;
+   z = f(n) ;
+   ...
+}
+\end{verbatim}
+
+Cambiar a:
+
+\begin{verbatim}
+f1 = f(n) ;
+
+if (x < f1 ) {
+   ...
+   y = f1 * z ;
+   z = f1 ;
+   ...
+}
+\end{verbatim}
+
+%%% Local Variables:
+%%% TeX-master: "tedd"
+%%% End:
